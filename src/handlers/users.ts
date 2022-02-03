@@ -60,16 +60,20 @@ const authenticate = async (req: Request, res: Response) => {
         const user = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            password: req.body.password
-        }
-        const result = await store.authenticate(user.firstName, user.lastName, user.password);
+            password: req.body.password,
+        };
+        const result = await store.authenticate(
+            user.firstName,
+            user.lastName,
+            user.password
+        );
         const token = jwt.sign({ result }, process.env.TOKEN_SECRET as string);
         res.send(token);
     } catch (err) {
-        res.status(401)
-        res.send(`${err}`)
+        res.status(401);
+        res.send(`${err}`);
     }
-}
+};
 
 const user_store_routes = (app: express.Application) => {
     app.get('/users/index', index);

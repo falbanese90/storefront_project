@@ -60,9 +60,26 @@ const create = async (req, res) => {
         res.send(`${err}`);
     }
 };
+const authenticate = async (req, res) => {
+    try {
+        const user = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            password: req.body.password,
+        };
+        const result = await store.authenticate(user.firstName, user.lastName, user.password);
+        const token = jsonwebtoken_1.default.sign({ result }, process.env.TOKEN_SECRET);
+        res.send(token);
+    }
+    catch (err) {
+        res.status(401);
+        res.send(`${err}`);
+    }
+};
 const user_store_routes = (app) => {
     app.get('/users/index', index);
     app.get('/users/show/:id', show);
     app.post('/users/create', create);
+    app.post('/users/authenticate', authenticate);
 };
 exports.default = user_store_routes;

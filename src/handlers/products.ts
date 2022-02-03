@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 const store = new ProductStore();
 
@@ -14,16 +14,16 @@ const index = async (req: Request, res: Response) => {
     } catch (err) {
         res.send(`${err}`);
     }
-}
+};
 const show = async (req: Request, res: Response) => {
     try {
-        const id = Number(req.params.id)
+        const id = Number(req.params.id);
         const result = await store.show(id);
-        res.send(result)
+        res.send(result);
     } catch (err) {
         res.send(`${err}`);
     }
-}
+};
 const create = async (req: Request, res: Response) => {
     try {
         const authorizationHeader = req.headers.authorization;
@@ -37,19 +37,19 @@ const create = async (req: Request, res: Response) => {
     try {
         const product: Product = {
             name: req.body.name,
-            price: req.body.price
-        }
+            price: req.body.price,
+        };
         const result = await store.create(product);
-        res.send(result)
+        res.send(result);
     } catch (err) {
         res.send(`${err}`);
     }
 };
 
 const product_store_routes = (app: express.Application) => {
-    app.get('/products/index', index)
-    app.get('/products/show/:id', show)
-    app.post('/products/create', create)
-}
+    app.get('/products', index);
+    app.get('/products/show/:id', show);
+    app.post('/products/create', create);
+};
 
 export default product_store_routes;

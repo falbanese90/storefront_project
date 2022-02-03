@@ -11,4 +11,10 @@ describe('Connection to root status is 200', () => {
             expect(code).toBe(200);
         });
     });
+    it('Connection to "/" is status 200', () => {
+        server_1.default.get('/users/index', (req, res) => {
+            const code = res.status;
+            expect(code).toBe(200);
+        });
+    });
 });
