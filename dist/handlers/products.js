@@ -51,7 +51,7 @@ const create = async (req, res) => {
     }
 };
 const product_store_routes = (app) => {
-    app.get('/products/index', index);
+    app.get('/products', index);
     app.get('/products/show/:id', show);
     app.post('/products/create', create);
 };

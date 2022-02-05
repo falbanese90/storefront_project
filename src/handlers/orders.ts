@@ -9,12 +9,11 @@ const store = new OrderStore();
 const index = async (_req: Request, res: Response) => {
     try {
         const result = await store.index();
-        console.log(typeof(result));
         res.send(result);
     } catch (err) {
         res.send(`${err}`);
     }
-}
+};
 const create = async (req: Request, res: Response) => {
     try {
         const authorizationHeader = req.headers.authorization;
@@ -32,8 +31,8 @@ const create = async (req: Request, res: Response) => {
         const current_user = token_content['result']['id'] as number;
         const order: Order = {
             status: 'active',
-            user_id: current_user
-        }
+            user_id: current_user,
+        };
         const result = await store.create(order);
         res.send(result);
     } catch (err) {
@@ -51,21 +50,39 @@ const addProduct = async (req: Request, res: Response) => {
         return;
     }
     try {
-        const quantity = req.body.quantity as number
-        const productId = req.body.productId as string
-        const orderId = req.params.id as string
+        const quantity = req.body.quantity as number;
+        const productId = req.body.productId as string;
+        const orderId = req.params.id as string;
         const result = await store.addProduct(quantity, productId, orderId);
         res.send(result);
     } catch (err) {
         res.send(`${err}`);
     }
-}
-
+};
+const show = async (req: Request, res: Response) => {
+    try {
+        const authorizationHeader = req.headers.authorization;
+        const token = authorizationHeader?.split(' ')[1] as string;
+        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
+    } catch (err) {
+        res.status(401);
+        res.send(`${err}`);
+        return;
+    }
+    try {
+        const id = Number(req.params.id);
+        const result = await store.show(id);
+        res.send(result);
+    } catch (err) {
+        res.send(`${err}`);
+    }
+};
 
 const order_store_routes = (app: express.Application) => {
     app.get('/orders', index);
     app.post('/orders/create', create);
     app.post('/orders/:id/products', addProduct);
-}
+    app.get('/orders/:id', show);
+};
 
 export default order_store_routes;
