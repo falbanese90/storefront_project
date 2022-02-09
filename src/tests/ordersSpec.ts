@@ -1,18 +1,20 @@
-import { Order, OrderStore } from '../models/orders';
+// import { Order, OrderStore } from '../models/orders';
+// import { User, UserStore } from '../models/users';
+// import Client from '../database';
+// import dotenv from 'dotenv';
+// import { Product, ProductStore } from '../models/products';
 
-const store = new OrderStore();
+// const store = new OrderStore();
 
-describe('Orders model retrieves and creates neccesary data from database', () => {
-    it('Index returns all orders form database', async () => {
-        const result = await store.index();
-        expect(result).toBeTruthy();
-    })
-    it('Create returns newly created order', async () => {
-        const o: Order = {
-            status: 'active',
-            user_id: 5
-        }
-        const result = await store.create(o);
-        expect(result).toBeTruthy();
-    })
-})
+// console.log(process.env.ENV)
+
+// describe('Orders model retrieves and creates neccesary data from database', () => {
+//     it('Order Store model returns a class that is defined.', () => {
+//         expect(store).toBeDefined();
+//     })
+//     it('Index returns all orders form database', async () => {
+//         const result = await store.index();
+//         console.log(result)
+//         expect(result.length).toEqual(0);
+//     })
+// })

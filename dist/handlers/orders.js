@@ -11,7 +11,6 @@ const store = new orders_1.OrderStore();
 const index = async (_req, res) => {
     try {
         const result = await store.index();
-        console.log(typeof result);
         res.send(result);
     }
     catch (err) {
