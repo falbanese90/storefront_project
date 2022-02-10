@@ -9,6 +9,19 @@
     - GRANT ALL PRIVILEGES ON DATBASE storefront TO developer;
     - GRANT ALL PRIVELEGES ON DATABASE storefront_test TO developer;
 -   Be sure to include a database.json file with the correct parameters.
+
+### Enviroment Variables (.env)
+```
+POSTGRES_PASSWORD=password123
+POSTGRES_USER=developer
+ENV=dev
+POSTGRES_HOST=127.0.0.1
+POSTGRES_DB=storefront
+POSTGRES_TEST_DB=storefront_test
+TOKEN_SECRET=064PLia5XlxtoeaWBOMnbA
+PEPPER=F33iLDFtx4nl_TbGRdKMSw
+SALTROUNDS=10
+```
  
 ### Database Migrations
 
