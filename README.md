@@ -95,3 +95,8 @@ With the following body:
 
 TO get a list of all users that have orders you can use the dashboard query via:
 <http://0.0.0.0:3000/users-with-orders> [GET]
+
+### Testing
+
+> Important!
+ENV variable must be changed manually from 'dev' to 'test' in order to implement tests.
