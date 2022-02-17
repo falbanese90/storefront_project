@@ -1,6 +1,5 @@
 import { Order, OrderStore } from '../models/orders';
 import express, { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import auth from '../utilities/auth';
 
@@ -34,8 +33,8 @@ const create = async (req: Request, res: Response) => {
 const addProduct = async (req: Request, res: Response) => {
     try {
         const quantity = req.body.quantity as number;
-        const productId = req.body.productId as string;
-        const orderId = req.params.id as string;
+        const productId = req.body.productId;
+        const orderId = req.params.id;
         const result = await store.addProduct(quantity, productId, orderId);
         res.send(result);
     } catch (err) {
@@ -55,7 +54,7 @@ const show = async (req: Request, res: Response) => {
 const order_store_routes = (app: express.Application) => {
     app.get('/orders', auth, index);
     app.post('/orders/create', auth, create);
-    app.post('/orders/:id/products', auth,  addProduct);
+    app.post('/orders/:id/products', auth, addProduct);
     app.get('/orders/:id', auth, show);
 };
 

@@ -1,5 +1,4 @@
 import { Product, ProductStore } from '../models/products';
-import jwt from 'jsonwebtoken';
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import auth from '../utilities/auth';
@@ -41,7 +40,7 @@ const create = async (req: Request, res: Response) => {
 const product_store_routes = (app: express.Application) => {
     app.get('/products', index);
     app.get('/products/show/:id', show);
-    app.post('/products/create', auth,  create);
+    app.post('/products/create', auth, create);
 };
 
 export default product_store_routes;

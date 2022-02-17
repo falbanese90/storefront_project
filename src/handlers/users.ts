@@ -59,8 +59,8 @@ const authenticate = async (req: Request, res: Response) => {
 };
 
 const user_store_routes = (app: express.Application) => {
-    app.get('/users', auth,  index);
-    app.get('/users/show/:id', auth,  show);
+    app.get('/users', auth, index);
+    app.get('/users/show/:id', auth, show);
     app.post('/users/create', create);
     app.post('/users/authenticate', authenticate);
 };

@@ -8,13 +8,13 @@ const store = new DashboardQueries();
 
 const usersWithOrders = async (req: Request, res: Response) => {
     try {
-        const authorizationHeader = req.headers.authorization
-        const token = authorizationHeader?.split(' ')[1] as string
-        jwt.verify(token, process.env.TOKEN_SECRET as string)
+        const authorizationHeader = req.headers.authorization;
+        const token = authorizationHeader?.split(' ')[1] as string;
+        jwt.verify(token, process.env.TOKEN_SECRET as string);
     } catch (err) {
-        res.status(401)
+        res.status(401);
         res.send(`${err}`);
-        return
+        return;
     }
     try {
         const result = await store.usersWithOrders();
@@ -22,10 +22,10 @@ const usersWithOrders = async (req: Request, res: Response) => {
     } catch (err) {
         res.send(`${err}`);
     }
-}
+};
 
 const dashboard_routes = async (app: express.Application) => {
     app.get('/users-with-orders', usersWithOrders);
-}
+};
 
 export default dashboard_routes;
