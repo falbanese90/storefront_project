@@ -38,7 +38,7 @@ export class OrderStore {
         try {
             const conn = await Client.connect();
             const sql =
-                'INSERT INTO orders_product (quantity, product_id, order_id) VALUES ($1, $2, $3) RETURNING *;';
+                'INSERT INTO order_products_table (quantity, product_id, order_id) VALUES ($1, $2, $3) RETURNING *;';
             const result = await conn.query(sql, [
                 quantity,
                 productId,
@@ -54,7 +54,7 @@ export class OrderStore {
         try {
             const conn = await Client.connect();
             const sql =
-                'SELECT name, price, quantity FROM products INNER JOIN orders_product ON products.id=orders_product.product_id WHERE orders_product.order_id=($1);';
+                'SELECT name, price, quantity FROM products INNER JOIN order_products_table ON products.id=order_products_table.product_id WHERE order_products_table.order_id=($1);';
             const result = await conn.query(sql, [id]);
             conn.release();
             return result.rows;

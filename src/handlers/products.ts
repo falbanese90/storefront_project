@@ -2,6 +2,7 @@ import { Product, ProductStore } from '../models/products';
 import jwt from 'jsonwebtoken';
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import auth from '../utilities/auth';
 
 dotenv.config();
 
@@ -26,15 +27,6 @@ const show = async (req: Request, res: Response) => {
 };
 const create = async (req: Request, res: Response) => {
     try {
-        const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1] as string;
-        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
-    } catch (err) {
-        res.status(401);
-        res.send(`${err}`);
-        return;
-    }
-    try {
         const product: Product = {
             name: req.body.name,
             price: req.body.price,
@@ -49,7 +41,7 @@ const create = async (req: Request, res: Response) => {
 const product_store_routes = (app: express.Application) => {
     app.get('/products', index);
     app.get('/products/show/:id', show);
-    app.post('/products/create', create);
+    app.post('/products/create', auth,  create);
 };
 
 export default product_store_routes;

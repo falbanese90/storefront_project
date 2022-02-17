@@ -21,22 +21,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 - [OPTIONAL] Completed Orders by user (args: user id)[token required] 
 
 ## Data Shapes
-#### Product
--  id (check)
-- name (check)
-- price (check)
-- [OPTIONAL] category
+#### Product (products)
+- id : SERIAL PRIMARY KEY
+- name : VARCHAR(64) NOT NULL
+- price : integer NOT NULL
 
-#### User
-- id (check)
-- firstName (check)
-- lastName (check)
-- password (check)
 
-#### Orders
-- id (check)
-- id of each product in the order (check)
-- quantity of each product in the order (check)
-- user_id (check)
-- status of order (active or complete) (check)
+#### User (users)
+- id : SERIAL PRIMARY KEY
+- firstName : VARCHAR(50)
+- lastName : VARCHAR(50)
+- password : VARCHAR
+
+#### Orders (orders)
+- id : SERIAL PRIMARY KEY
+- status : VARCHAR(64)
+- user_id : bigint REFERENCES users(id)
+
+#### Order Products Table (order_products_table)
+- id: SERIAL PRIMARY KEY
+- quantity : integer
+- order_id : bigint REFERENCES orders(id)
+- product_id : bigint REFERENCES products(id)
 

@@ -2,6 +2,7 @@
 
 -   The Database will be run from the following;
     Host: ‘127.0.0.1’
+    Port: '5432'
 -   Will need to enter the following in psql:
     - CREATE DATABASE storefront;
     - CREATE DATABASE storefront_test;

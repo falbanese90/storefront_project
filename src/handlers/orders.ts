@@ -2,6 +2,7 @@ import { Order, OrderStore } from '../models/orders';
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import auth from '../utilities/auth';
 
 dotenv.config();
 const store = new OrderStore();
@@ -15,15 +16,6 @@ const index = async (_req: Request, res: Response) => {
     }
 };
 const create = async (req: Request, res: Response) => {
-    try {
-        const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1] as string;
-        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
-    } catch (err) {
-        res.status(401);
-        res.send(`${err}`);
-        return;
-    }
     try {
         const authorizationHeader = req.headers.authorization;
         const token = authorizationHeader?.split(' ')[1] as string;
@@ -41,15 +33,6 @@ const create = async (req: Request, res: Response) => {
 };
 const addProduct = async (req: Request, res: Response) => {
     try {
-        const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1] as string;
-        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
-    } catch (err) {
-        res.status(401);
-        res.send(`${err}`);
-        return;
-    }
-    try {
         const quantity = req.body.quantity as number;
         const productId = req.body.productId as string;
         const orderId = req.params.id as string;
@@ -61,15 +44,6 @@ const addProduct = async (req: Request, res: Response) => {
 };
 const show = async (req: Request, res: Response) => {
     try {
-        const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1] as string;
-        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
-    } catch (err) {
-        res.status(401);
-        res.send(`${err}`);
-        return;
-    }
-    try {
         const id = Number(req.params.id);
         const result = await store.show(id);
         res.send(result);
@@ -79,10 +53,10 @@ const show = async (req: Request, res: Response) => {
 };
 
 const order_store_routes = (app: express.Application) => {
-    app.get('/orders', index);
-    app.post('/orders/create', create);
-    app.post('/orders/:id/products', addProduct);
-    app.get('/orders/:id', show);
+    app.get('/orders', auth, index);
+    app.post('/orders/create', auth, create);
+    app.post('/orders/:id/products', auth,  addProduct);
+    app.get('/orders/:id', auth, show);
 };
 
 export default order_store_routes;

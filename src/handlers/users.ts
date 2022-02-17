@@ -1,19 +1,11 @@
 import { UserStore } from '../models/users';
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import auth from '../utilities/auth';
 
 const store = new UserStore();
 
 const index = async (req: Request, res: Response) => {
-    try {
-        const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1] as string;
-        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
-    } catch (err) {
-        res.status(401);
-        res.send(`${err}`);
-        return;
-    }
     try {
         const result = await store.index();
         res.send(result);
@@ -23,15 +15,6 @@ const index = async (req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
-    try {
-        const authorizationHeader = req.headers.authorization;
-        const token = authorizationHeader?.split(' ')[1] as string;
-        jwt.verify(token as string, process.env.TOKEN_SECRET as string);
-    } catch (err) {
-        res.status(401);
-        res.send(`${err}`);
-        return;
-    }
     try {
         const user_id = Number(req.params.id);
         const result = await store.show(user_id);
@@ -76,8 +59,8 @@ const authenticate = async (req: Request, res: Response) => {
 };
 
 const user_store_routes = (app: express.Application) => {
-    app.get('/users', index);
-    app.get('/users/show/:id', show);
+    app.get('/users', auth,  index);
+    app.get('/users/show/:id', auth,  show);
     app.post('/users/create', create);
     app.post('/users/authenticate', authenticate);
 };
